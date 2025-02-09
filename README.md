@@ -33,7 +33,8 @@ The drop detection algorithm identifies temperature drops by computing the deriv
 - `preced_window`: Number of data points before a drop used for baseline fluctuation calculation.
 - `drop_factor`: Factor multiplied by baseline fluctuation to determine a significant drop.
 - `deriv_thresh`: The threshold for the derivative to classify a point as a drop.
-![12172014_BAK_Day14_RatIV_Cold_drops_modified](https://github.com/user-attachments/assets/886452d1-1c0a-4cc0-a6e0-8a59cdf4abd6)
+
+![6015 nw-2-25_frequency](https://github.com/user-attachments/assets/93b3e572-824a-4a4f-b2f6-9aacb9657a9e)
 
 ### Basal Temperature Calculation
 - `window_before`: Time window (seconds) before a drop used to compute baseline temperature.
