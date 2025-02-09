@@ -34,7 +34,7 @@ The drop detection algorithm identifies temperature drops by computing the deriv
 - `drop_factor`: Factor multiplied by baseline fluctuation to determine a significant drop.
 - `deriv_thresh`: The threshold for the derivative to classify a point as a drop.
 
-![6015 nw-2-25_frequency](https://github.com/user-attachments/assets/93b3e572-824a-4a4f-b2f6-9aacb9657a9e)
+![08202024_Intact_Cold_drops_modified](https://github.com/user-attachments/assets/b403299f-4d80-4690-8048-eab51a8641a6)
 
 ### Basal Temperature Calculation
 - `window_before`: Time window (seconds) before a drop used to compute baseline temperature.
@@ -75,9 +75,9 @@ The drop detection algorithm identifies temperature drops by computing the deriv
 - **Plots**:
   - **Annotated temperature plot** (`<filename>_temp.png`): Shows drop periods and recovery windows.
   - **Neuron event/frequency plots**: Highlights neuronal responses relative to detected drops.
-  - 
-![6015 nw-2-25_events](https://github.com/user-attachments/assets/a962cf2d-b806-406c-b1d1-42f085a73e7d)
+    
 ![6001 nw-2-05_events](https://github.com/user-attachments/assets/e2b748f4-4897-411e-8b18-9a2184494093)
+![6004 nw-2-12_frequency](https://github.com/user-attachments/assets/16d5c11b-9aac-457c-a8ca-824a04145dfc)
 
 ## Usage
 To run the analysis on a dataset:
