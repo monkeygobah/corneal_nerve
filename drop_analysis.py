@@ -258,16 +258,21 @@ class DropAnalysis:
         plt.savefig(os.path.join(self.output_dir, self.dataname, f"{self.dataname}_temp.png"), dpi=300)
         plt.close()
 
-
-
-    def plot_neuron(self, neuron, drop_intervals, plot_label, forced_computations,recovery_failures):
+    def plot_neuron(self, neuron, drop_intervals, plot_label, forced_computations, recovery_failures):
         """
         Plots neuron event or frequency data with stim periods and saves them.
         If force_basal_computation=True for a drop, the 30s Before window is still displayed but with hatching.
         """
         fig, ax = plt.subplots(figsize=(10, 5))
 
-        ax.plot(self.df[self.time_col], self.df[neuron], label=f"{neuron} {plot_label}", color='black' if "events" in plot_label else 'blue')
+        is_frequency = neuron in self.frequency_columns.values()  # Check if it's a frequency plot
+        
+        if is_frequency:
+            # **Plot frequency data as a continuous line**
+            ax.plot(self.df[self.time_col], self.df[neuron], label=f"{neuron} {plot_label}", color='blue')
+        else:
+            # **Plot event counts as a histogram**
+            ax.hist(self.df[self.time_col], bins=50, weights=self.df[neuron], alpha=0.7, color='black', label=f"{neuron} {plot_label}")
 
         for idx, (basal_start, drop_time, during_start, during_end, after_start, after_end) in enumerate(drop_intervals):
             # **Determine Hatching Style for Forced Computation**
@@ -287,17 +292,17 @@ class DropAnalysis:
                 ax.axvspan(after_start, after_end, color='purple', alpha=0.2, label="30s After" if idx == 0 else "")
 
             stim_hatch = "\\" if recovery_failures[idx] else None  
-            
+
             # **Always show red (During Stim window), with hatching if no recovery**
             ax.axvspan(during_start, during_end, color='red', alpha=0.3, hatch=stim_hatch, label="During Stim" if idx == 0 else "")
 
         ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Neuron Events" if "events" in plot_label else "Frequency (Hz)")
+        ax.set_ylabel("Neuron Events" if not is_frequency else "Frequency (Hz)")
         ax.set_title(f"{neuron} {plot_label} Response to Drop")
         ax.legend()
         ax.grid(True)
 
-        save_path = os.path.join(self.output_dir, self.dataname,f"{plot_label}.png")
+        save_path = os.path.join(self.output_dir, self.dataname, f"{plot_label}.png")
         plt.savefig(save_path, dpi=300)
         plt.close()
 
