@@ -1,5 +1,26 @@
 # Electrophysiolic Analysis Toolkit
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Setup](#setup)
+  - [Create and activate a conda environment](#1-create-and-activate-a-conda-environment)
+  - [Install dependencies](#2-install-dependencies)
+- [Data Format Requirements](#data-format-requirements)
+  - [Required Columns](#required-columns)
+  - [Neuronal Event Columns](#neuronal-event-columns)
+  - [Frequency Columns](#frequency-columns)
+  - [Additional Notes](#additional-notes)
+- [Drop Finder Algorithm](#drop-finder-algorithm)
+- [Hyperparameters](#hyperparameters)
+  - [Drop Detection](#drop-detection)
+  - [Basal Temperature Calculation](#basal-temperature-calculation)
+  - [Post-Stimulus Analysis](#post-stimulus-analysis)
+- [Effect of `force_basal_computation`](#effect-of-force_basal_computation)
+- [Logic for Computing Windows](#logic-for-computing-windows)
+- [Outputs](#outputs)
+- [Usage](#usage)
+
 ## Overview
 This tool analyzes temperature drops in time-series data and performs statistical analysis on neuronal event responses. It allows for:
 - Automated detection of temperature drops.
@@ -18,6 +39,46 @@ conda activate drop_analysis
 ```bash
 pip install -r requirements.txt
 ```
+
+## Data Format Requirements
+
+For the tool to function correctly, your input CSV file must follow a specific structure. Below are the required and optional columns:
+
+### **Required Columns**
+These columns must be present in the dataset:
+- **Time (`Time`)**: A numerical column representing time in seconds.
+- **Temperature (`Temp`)**: A numerical column containing temperature values recorded over time.
+
+### **Neuronal Event Columns**
+Each neuron must have its own column representing event counts over time. These columns:
+- Should be **numerical** (integer counts of detected events).
+- **Must not start with `"f-"`** (this is reserved for frequency data).
+
+Example:
+```csv
+Time,Temp,Neuron1,Neuron2,Neuron3
+0.0,36.5,2,1,3
+0.5,36.4,1,0,2
+1.0,36.3,3,1,4
+```
+
+### Frequency Columns
+
+If frequency data is available, it must be included as separate columns with the same name as the corresponding neuron, prefixed with `f-`.
+
+Example:
+
+```csv
+Time,Temp,Neuron1,Neuron2,Neuron3,f-Neuron1,f-Neuron2,f-Neuron3
+0.0,36.5,2,1,3,5.2,4.1,6.0
+0.5,36.4,1,0,2,5.0,4.0,5.8
+1.0,36.3,3,1,4,5.3,4.2,6.1
+```
+Additional Notes
+- All time values must be in ascending order.
+- Ensure no missing values in the required columns (Time, Temp, and neuron columns).
+- The tool automatically detects event columns by excluding Time, Temp, and any column prefixed with "f-".
+- Frequency columns are linked to their respective neuron event columns by their prefix ("f-").
 
 ## Drop Finder Algorithm
 The drop detection algorithm identifies temperature drops by computing the derivative of the temperature signal. It:
