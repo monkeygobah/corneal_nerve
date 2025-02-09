@@ -77,6 +77,7 @@ The drop detection algorithm identifies temperature drops by computing the deriv
   - **Neuron event/frequency plots**: Highlights neuronal responses relative to detected drops.
   - 
 ![6015 nw-2-25_events](https://github.com/user-attachments/assets/a962cf2d-b806-406c-b1d1-42f085a73e7d)
+![6001 nw-2-05_events](https://github.com/user-attachments/assets/e2b748f4-4897-411e-8b18-9a2184494093)
 
 ## Usage
 To run the analysis on a dataset:
